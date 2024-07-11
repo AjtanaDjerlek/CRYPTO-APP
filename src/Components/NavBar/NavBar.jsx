@@ -1,4 +1,6 @@
+import React from "react"
+import NavbarStyled from "./NavBarStyled"
 
-import React from 'react';
-
-export default function NavBar() {}
+export default function NavBar() {
+  return <NavbarStyled />
+}
