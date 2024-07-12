@@ -22,7 +22,7 @@ import SearchIcon from "@mui/icons-material/Search"
 
 export function Home() {
   // Usestate for data,catching errors and loading
-  const { data, loading, error } = useContext(MyDataContext)
+  const { data, loading, error, setCoin } = useContext(MyDataContext)
 
   // Usestate for searchbars
   const [searchQuery, setSearchQuery] = useState("")
@@ -41,6 +41,10 @@ export function Home() {
   const filteredCoins = data.data.coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  const addItemToDetailPage = (item) => {
+    setCoin(item)
+  }
 
   return (
     <Container
@@ -208,44 +212,42 @@ export function Home() {
           </TableHead>
           <TableBody>
             {/* Prikazuje prvih 10 valuta */}
-            {filteredCoins.slice(0, 10).map((coin) => (
-              <TableRow key={coin.id}>
-                <TableCell style={{ color: "black" }}>{coin.rank}</TableCell>
-                <TableCell>
-                  <Link to="/coin-details">
-                    <img
-                      src={coin.iconUrl}
-                      alt={coin.name}
-                      style={{ width: "40px", marginRight: "10px" }}
-                    />
-                  </Link>
-                </TableCell>
+            {filteredCoins.slice(0, 10).map((coin) => {
+              return (
+                <TableRow key={coin.id}>
+                  <TableCell style={{ color: "black" }}>{coin.rank}</TableCell>
+                  <TableCell onClick={() => addItemToDetailPage(coin)}>
+                    <Link to="/coin-details">
+                      <img
+                        src={coin.iconUrl}
+                        alt={coin.name}
+                        style={{ width: "40px", marginRight: "10px" }}
+                      />
+                    </Link>
+                  </TableCell>
 
-                <TableCell style={{ color: "black" }}>
-                  <Link to="/coin-details" style={{ textDecoration: "none" }}>
-                    {coin.name}
-                  </Link>
-                </TableCell>
-                <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                  ${parseFloat(coin.price).toFixed(2)}
-                </TableCell>
-                <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                  ${parseFloat(coin["24hVolume"]).toLocaleString()}
-                </TableCell>
-                <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                  ${parseFloat(coin.marketCap).toLocaleString()}
-                </TableCell>
-                <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                  <ShowChartIcon style={{ color: "black" }} />
-                </TableCell>
-                <TableCell style={{ color: "red", fontWeight: "bold" }}>
-                  <FavoriteIcon />
-                </TableCell>
-                <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                  <SearchIcon style={{ color: "black" }} />
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell style={{ color: "black" }}>{coin.name}</TableCell>
+                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
+                    ${parseFloat(coin.price).toFixed(2)}
+                  </TableCell>
+                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
+                    ${parseFloat(coin["24hVolume"]).toLocaleString()}
+                  </TableCell>
+                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
+                    ${parseFloat(coin.marketCap).toLocaleString()}
+                  </TableCell>
+                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
+                    <ShowChartIcon style={{ color: "black" }} />
+                  </TableCell>
+                  <TableCell style={{ color: "red", fontWeight: "bold" }}>
+                    <FavoriteIcon />
+                  </TableCell>
+                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
+                    <SearchIcon style={{ color: "black" }} />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

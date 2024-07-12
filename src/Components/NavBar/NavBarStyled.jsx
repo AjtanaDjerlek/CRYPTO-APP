@@ -19,7 +19,7 @@ const NavbarContainer = styled(Box)({
   backgroundColor: "rgb(30 41 59 / var(--tw-bg-opacity))",
   fontFamily: "'Roboto', sans-serif",
   top: 0,
-  width: "78%",
+  width: "81%",
   zIndex: 1000,
 })
 
