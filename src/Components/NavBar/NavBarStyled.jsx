@@ -8,13 +8,19 @@ import PersonPinIcon from "@mui/icons-material/PersonPin"
 import Logo from "./images/cryplogo.png"
 
 const NavbarContainer = styled(Box)({
+  "--tw-bg-opacity": "1",
   height: "60px",
+
   display: "flex",
+  // position: "fixed",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "10px 20px",
-  backgroundColor: "#2d3748",
+  padding: "10px 200px",
+  backgroundColor: "rgb(30 41 59 / var(--tw-bg-opacity))",
   fontFamily: "'Roboto', sans-serif",
+  top: 0,
+  width: "78%",
+  zIndex: 1000,
 })
 
 const LogoContainer = styled(Box)({
@@ -28,17 +34,27 @@ const LogoImage = styled("img")({
 })
 
 const NavLinks = styled(Box)({
+  "--tw-bg-opacity": "1",
   display: "flex",
-  gap: 30,
+  flexWrap: "row",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  paddingLeft: "20px",
+  gap: 20,
+  backgroundColor: "rgb(15 23 42 / var(--tw-bg-opacity))",
+  height: "55px",
+  width: "470px",
+  borderRadius: 10,
 })
 
-const NavLink = styled(Link)({
-  color: "white",
+const StyledLink = styled(Link)({
+  "--tw-text-opacity": "1",
+  color: "rgb(156 163 175 / var(--tw-text-opacity))",
   textDecoration: "none",
   fontSize: "1em",
-  fontWeight: 700,
+  fontWeight: 600,
   "&:hover": {
-    color: "#e53e3e",
+    color: "whitesmoke",
   },
 })
 
@@ -46,6 +62,8 @@ const ProfileIcon = styled(Avatar)({
   color: "white",
   backgroundColor: "transparent",
   fontSize: "1.5em",
+  display: "flex",
+  flexWrap: "row",
 })
 
 const NavbarStyled = () => {
@@ -53,20 +71,19 @@ const NavbarStyled = () => {
     <NavbarContainer>
       <LogoContainer>
         <LogoImage src={Logo} alt="Logo" />
-        <Typography variant="h6" color="white" ml={2} fontWeight={700}>
+        <Typography variant="h6" color="white" ml={0} fontWeight={700}>
           CRYPTO-APP
         </Typography>
       </LogoContainer>
       <NavLinks>
-        <Link to="/">Home</Link>
-        <Link to="/coins">Coins</Link>
-        <Link to="/coins">Coins</Link>
-        <Link to="/about-us">Coins</Link>
-        <Link to="/favorite">Coins</Link>
+        <StyledLink to="/">Home</StyledLink>
+        <StyledLink to="/coins">Coins</StyledLink>
+        <StyledLink to="/about-us">About Us</StyledLink>
+        <StyledLink to="/favorite">Favorite</StyledLink>
       </NavLinks>
       <ProfileIcon>
         <PersonPinIcon />
-        <Link to="/log-in">LogIn</Link>
+        {/* <Link to="/log-in">LogIn</Link> */}
       </ProfileIcon>
     </NavbarContainer>
   )

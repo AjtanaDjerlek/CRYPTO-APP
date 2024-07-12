@@ -8,7 +8,7 @@ export const StyledGrid = styled(Grid)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   flexWrap: "wrap",
-  gap: theme.spacing(13),
+  gap: theme.spacing(1),
 }))
 
 export const StyledCard = styled(Card)(({ theme }) => ({

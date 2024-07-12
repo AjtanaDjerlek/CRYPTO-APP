@@ -9,11 +9,17 @@ import { Favorite } from "./Components/Favorite/Favorite"
 import { LogIn } from "./Components/LogIn/LogIn"
 import Footer from "./Components/Footer/Footer"
 import { createGlobalStyle } from "styled-components"
+import { CoinDetails } from "./Components/CoinDetails/CoinDetails"
 
 const GlobalStyle = createGlobalStyle`
-  padding:0;
+ body {
+  
   margin: 0;
-  overflow: hidden;
+padding: 0;
+width: 100%;
+overflow-x: hidden;
+
+}
 `
 
 function App() {
@@ -24,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/coins" element={<Coins />} />
+        <Route path="/coin-details" element={<CoinDetails />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/log-in" element={<LogIn />} />
