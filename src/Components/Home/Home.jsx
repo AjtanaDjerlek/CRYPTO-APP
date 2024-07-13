@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react"
-import { MyDataContext } from "../../Context/Provider"
+import React, { useContext, useState } from "react";
+import { MyDataContext } from "../../Context/Provider";
 import {
   Table,
   TableBody,
@@ -13,244 +13,233 @@ import {
   TextField,
   Box,
   InputAdornment,
-  Container,
-} from "@mui/material"
-import { Link } from "react-router-dom"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import ShowChartIcon from "@mui/icons-material/ShowChart"
-import SearchIcon from "@mui/icons-material/Search"
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  IconButton,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import SearchIcon from "@mui/icons-material/Search";
+import CalculateIcon from "@mui/icons-material/Calculate"; // Import the CalculateIcon
+import {
+  StyledContainer,
+  StyledTypography,
+  HeadingText,
+  Top10,
+  List,
+  SearchIconStyle,
+  InputPropsStyle,
+  StyledTextField,
+  textFieldSx,
+  StyledTableContainer,
+  StyledTableCell,
+  TableCellBlack,
+  CoinIcon,
+  BoldText,
+  RedText,
+  ChartIcon,
+  StyledDialog,
+  StyledDialogTitle,
+  StyledDialogContent,
+  StyledDialogActions,
+  StyledDialogTextField,
+  StyledDialogCalculationContainer,
+  StyledDialogCalculationItem,
+} from "./HomeStyled";
 
 export function Home() {
-  // Usestate for data,catching errors and loading
-  const { data, loading, error, setCoin } = useContext(MyDataContext)
+  // Usestate for data, catching errors, and loading
+  const { data, loading, error, setCoin } = useContext(MyDataContext);
 
   // Usestate for searchbars
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Usestate for dialog
+  const [open, setOpen] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [total, setTotal] = useState("");
+  const [selectedCoin, setSelectedCoin] = useState(null);
 
   // Loading icons
   if (loading) {
-    return <CircularProgress style={{ color: "white" }} />
+    return <CircularProgress style={{ color: "white" }} />;
   }
 
   // Error handler
   if (error) {
-    return <p>Error: {error.message}</p>
+    return <p>Error: {error.message}</p>;
   }
 
-  // Filtriranje podataka
+  // Filtering data
   const filteredCoins = data.data.coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
   const addItemToDetailPage = (item) => {
-    setCoin(item)
-  }
+    setCoin(item);
+  };
+
+  const handleSearchIconClick = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setAmount("");
+    setTotal("");
+    setSelectedCoin(null); // Reset the selected coin
+  };
+
+  const handleCalculate = () => {
+    if (amount && selectedCoin) {
+      const totalAmount = (amount * parseFloat(selectedCoin.price)).toFixed(2);
+      setTotal(totalAmount);
+    }
+  };
+
+  const handleOpenDialog = (coin) => {
+    setSelectedCoin(coin);
+    setOpen(true);
+  };
 
   return (
-    <Container
-      style={{
-        padding: "20px",
-        backgroundColor: "white",
-        color: "white",
-        minHeight: "100vh",
-        maxWidth: "80vw",
-        margin: "auto",
-        position: "relative",
-      }}
-    >
+    <StyledContainer>
       {/* Heading */}
-      <Typography
-        variant="h5"
-        component="div"
-        gutterBottom
-        style={{
-          position: "absolute",
-          top: "-5px",
-          left: "0",
-          marginBottom: "0",
-          color: "black",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "5px",
-            fontWeight: "1300",
-          }}
-        >
-          <p style={{ fontWeight: "900" }}>Top 10 </p>
-          <p style={{ color: "red", fontWeight: "900" }}>List</p>
-        </div>
-      </Typography>
-      {/* Pretraga */}
+      <StyledTypography variant="h5" component="div" gutterBottom>
+        <HeadingText>
+          <Top10>Top 10 </Top10>
+          <List>List</List>
+        </HeadingText>
+      </StyledTypography>
+      {/* Search */}
       <Box display="flex" justifyContent="center" mb={2}>
-        <TextField
+        <StyledTextField
           variant="outlined"
           placeholder="Search cryptos"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon style={{ color: "grey" }} />
+                <IconButton onClick={handleSearchIconClick} style={SearchIconStyle}>
+                  <SearchIcon />
+                </IconButton>
               </InputAdornment>
             ),
-            style: {
-              color: "rgb(209 213 219 / var(--tw-text-opacity, 1))",
-              height: "40px",
-            },
+            style: InputPropsStyle,
           }}
-          inputProps={{
-            style: {
-              color: "rgb(209 213 219 / var(--tw-text-opacity, 1))",
-              "--tw-text-opacity": "1",
-            },
-          }}
+          inputProps={{ style: InputPropsStyle }}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{
-            backgroundColor: "rgba(55 ,65, 81, var(--tw-text-opacity, 1))",
-
-            borderRadius: "10px",
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "transparent",
-              },
-              "&:hover fieldset": {
-                borderColor: "transparent",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "transparent",
-              },
-            },
-          }}
+          sx={textFieldSx}
         />
       </Box>
-      {/* Tabela */}
-      <TableContainer
-        component={Paper}
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          margin: "0 auto",
-          marginTop: "30px",
-        }}
-      >
+      {/* Table */}
+      <StyledTableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                Rank
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                Icon
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                Name
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                Price
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                24h Volume
-              </TableCell>
-              <TableCell
-                style={{
-                  color: "black",
-                  fontWeight: "bolder",
-                  fontStyle: "italic",
-                  fontSize: "1em",
-                }}
-              >
-                marketCap
-              </TableCell>
-              <TableCell
-                style={{ color: "black", fontWeight: "bold" }}
-              ></TableCell>
-              <TableCell
-                style={{ color: "red", fontWeight: "bold" }}
-              ></TableCell>
-              <TableCell
-                style={{ color: "black", fontWeight: "bold" }}
-              ></TableCell>
+              {["Rank", "Icon", "Name", "Price", "24h Volume", "MarketCap"].map((header) => (
+                <StyledTableCell key={header}>{header}</StyledTableCell>
+              ))}
+              <StyledTableCell></StyledTableCell>
+              <StyledTableCell></StyledTableCell>
+              <StyledTableCell></StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* Prikazuje prvih 10 valuta */}
-            {filteredCoins.slice(0, 10).map((coin) => {
-              return (
-                <TableRow key={coin.id}>
-                  <TableCell style={{ color: "black" }}>{coin.rank}</TableCell>
-                  <TableCell onClick={() => addItemToDetailPage(coin)}>
-                    <Link to="/coin-details">
-                      <img
-                        src={coin.iconUrl}
-                        alt={coin.name}
-                        style={{ width: "40px", marginRight: "10px" }}
-                      />
-                    </Link>
-                  </TableCell>
-
-                  <TableCell style={{ color: "black" }}>{coin.name}</TableCell>
-                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                    ${parseFloat(coin.price).toFixed(2)}
-                  </TableCell>
-                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                    ${parseFloat(coin["24hVolume"]).toLocaleString()}
-                  </TableCell>
-                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                    ${parseFloat(coin.marketCap).toLocaleString()}
-                  </TableCell>
-                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                    <ShowChartIcon style={{ color: "black" }} />
-                  </TableCell>
-                  <TableCell style={{ color: "red", fontWeight: "bold" }}>
-                    <FavoriteIcon />
-                  </TableCell>
-                  <TableCell style={{ color: "black", fontWeight: "bold" }}>
-                    <SearchIcon style={{ color: "black" }} />
-                  </TableCell>
-                </TableRow>
-              )
-            })}
+            {/* Display top 10 coins */}
+            {filteredCoins.slice(0, 10).map((coin) => (
+              <TableRow key={coin.id}>
+                <TableCellBlack>{coin.rank}</TableCellBlack>
+                <TableCellBlack onClick={() => addItemToDetailPage(coin)}>
+                  <Link to="/coin-details">
+                    <CoinIcon src={coin.iconUrl} alt={coin.name} />
+                  </Link>
+                </TableCellBlack>
+                <TableCellBlack>{coin.name}</TableCellBlack>
+                <TableCellBlack style={BoldText}>
+                  ${parseFloat(coin.price).toFixed(2)}
+                </TableCellBlack>
+                <TableCellBlack style={BoldText}>
+                  ${parseFloat(coin["24hVolume"]).toLocaleString()}
+                </TableCellBlack>
+                <TableCellBlack style={BoldText}>
+                  ${parseFloat(coin.marketCap).toLocaleString()}
+                </TableCellBlack>
+                <TableCellBlack style={BoldText}>
+                  <ShowChartIcon style={ChartIcon} />
+                </TableCellBlack>
+                <TableCellBlack style={RedText}>
+                  <FavoriteIcon />
+                </TableCellBlack>
+                <TableCellBlack style={BoldText}>
+                  <IconButton onClick={() => handleOpenDialog(coin)} style={ChartIcon}>
+                    <CalculateIcon style={{color:"blue"}} />
+                  </IconButton>
+                </TableCellBlack>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
-      </TableContainer>
-    </Container>
-  )
+      </StyledTableContainer>
+
+      {/* Dialog for calculations */}
+      <StyledDialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="sm">
+        <StyledDialogTitle>
+          {selectedCoin ? (
+            <>
+              {selectedCoin.name} <img src={selectedCoin.iconUrl} alt={selectedCoin.name} style={{ width: '24px', marginLeft: '10px' }} />
+            </>
+          ) : "Crypto Details"}
+        </StyledDialogTitle>
+        <StyledDialogContent>
+          {selectedCoin && (
+            <StyledDialogCalculationContainer>
+              <StyledDialogCalculationItem>
+                <StyledDialogTextField
+                  type="number"
+                  fullWidth
+                  margin="normal"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+              </StyledDialogCalculationItem>
+              <Typography variant="h6" gutterBottom>
+                X
+              </Typography>
+              <StyledDialogCalculationItem>
+                <Typography variant="h6" gutterBottom>
+                  ${parseFloat(selectedCoin.price).toFixed(3)}
+                </Typography>
+              </StyledDialogCalculationItem>
+              <Typography variant="h6" gutterBottom>
+                =
+              </Typography>
+              <StyledDialogCalculationItem>
+                <StyledDialogTextField
+                  type="text"
+                  fullWidth
+                  margin="normal"
+                  value={total}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </StyledDialogCalculationItem>
+            </StyledDialogCalculationContainer>
+          )}
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <Button onClick={handleCalculate} color="primary">
+            Calculate
+          </Button>
+          <Button onClick={handleCloseDialog} color="secondary">
+            Close
+          </Button>
+        </StyledDialogActions>
+      </StyledDialog>
+    </StyledContainer>
+  );
 }
