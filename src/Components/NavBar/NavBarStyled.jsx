@@ -83,7 +83,7 @@ const NavbarStyled = () => {
       </NavLinks>
       <ProfileIcon>
         <PersonPinIcon />
-        {/* <Link to="/log-in">LogIn</Link> */}
+        <Link to="/log-in">LogIn</Link>
       </ProfileIcon>
     </NavbarContainer>
   )

@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
+import { Line } from 'react-chartjs-2';
 import SearchIcon from "@mui/icons-material/Search";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import {
@@ -59,7 +59,7 @@ export function Coins() {
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const [selectedCoin, setSelectedCoin] = useState(null);
-  const [open, setOpen] = useState(false); // Initialize to false
+  const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [total, setTotal] = useState("");
 
@@ -87,7 +87,7 @@ export function Coins() {
     setOpen(false);
     setAmount("");
     setTotal("");
-    setSelectedCoin(null); // Reset the selected coin
+    setSelectedCoin(null);
   };
 
   const handleCalculate = () => {
@@ -101,6 +101,20 @@ export function Coins() {
     setSelectedCoin(coin);
     setOpen(true);
   };
+
+  const createChartData = (sparkline) => ({
+    labels: sparkline.map((_, index) => index),
+    datasets: [
+      {
+        label: 'Price',
+        data: sparkline,
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+      },
+    ],
+  });
 
   return (
     <StyledContainer>
@@ -125,7 +139,7 @@ export function Coins() {
         <Table>
           <TableHead>
             <TableRow>
-              {["Rank", "Icon", "Name", "Price", "24h Volume", "MarketCap"].map((header) => (
+              {["Rank", "Icon", "Name", "Price", "24h Volume", "MarketCap", "Price Chart"].map((header) => (
                 <StyledTableCell key={header}>{header}</StyledTableCell>
               ))}
               <StyledTableCell></StyledTableCell>
@@ -154,15 +168,26 @@ export function Coins() {
                   <TableCellBlack style={BoldText}>
                     ${parseFloat(coin.marketCap).toLocaleString()}
                   </TableCellBlack>
-                  <TableCellBlack style={BoldText}>
-                    <ShowChartIcon style={ChartIcon} />
+                  <TableCellBlack>
+                    <div style={{ width: 100, height: 50 }}>
+                      <Line data={createChartData(coin.sparkline)} options={{ 
+                        maintainAspectRatio: false, 
+                        scales: { 
+                          x: { display: false },
+                          y: { display: false }
+                        },
+                        plugins: {
+                          legend: { display: false }
+                        }
+                      }} />
+                    </div>
                   </TableCellBlack>
                   <TableCellBlack style={RedText}>
                     <FavoriteIcon />
                   </TableCellBlack>
-                  <TableCellBlack style={BoldText}>
+                  <TableCellBlack>
                     <IconButton onClick={() => handleOpenDialog(coin)} style={ChartIcon}>
-                      <CalculateIcon style={{color:"blue"}} />
+                      <CalculateIcon style={{ color: "#3486d7" }} />
                     </IconButton>
                   </TableCellBlack>
                 </TableRow>

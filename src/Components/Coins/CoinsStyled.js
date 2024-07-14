@@ -57,6 +57,8 @@ export const InputPropsStyle = {
 export const StyledTextField = styled(TextField)({
   backgroundColor: "rgba(55 ,65, 81, var(--tw-text-opacity, 1))",
   borderRadius: "10px",
+  width:"200px",
+  textAlign:"center",
 });
 
 // Text Field Styles

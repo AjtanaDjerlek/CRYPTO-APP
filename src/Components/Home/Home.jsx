@@ -22,16 +22,15 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
+import { Line } from 'react-chartjs-2';
 import SearchIcon from "@mui/icons-material/Search";
-import CalculateIcon from "@mui/icons-material/Calculate"; // Import the CalculateIcon
+import CalculateIcon from "@mui/icons-material/Calculate";
 import {
   StyledContainer,
   StyledTypography,
   HeadingText,
   Top10,
   List,
-  SearchIconStyle,
   InputPropsStyle,
   StyledTextField,
   textFieldSx,
@@ -52,29 +51,22 @@ import {
 } from "./HomeStyled";
 
 export function Home() {
-  // Usestate for data, catching errors, and loading
   const { data, loading, error, setCoin } = useContext(MyDataContext);
 
-  // Usestate for searchbars
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Usestate for dialog
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [total, setTotal] = useState("");
   const [selectedCoin, setSelectedCoin] = useState(null);
 
-  // Loading icons
   if (loading) {
     return <CircularProgress style={{ color: "white" }} />;
   }
 
-  // Error handler
   if (error) {
     return <p>Error: {error.message}</p>;
   }
 
-  // Filtering data
   const filteredCoins = data.data.coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -91,7 +83,7 @@ export function Home() {
     setOpen(false);
     setAmount("");
     setTotal("");
-    setSelectedCoin(null); // Reset the selected coin
+    setSelectedCoin(null);
   };
 
   const handleCalculate = () => {
@@ -106,16 +98,28 @@ export function Home() {
     setOpen(true);
   };
 
+  const createChartData = (sparkline) => ({
+    labels: sparkline.map((_, index) => index),
+    datasets: [
+      {
+        label: 'Price',
+        data: sparkline,
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+      },
+    ],
+  });
+
   return (
     <StyledContainer>
-      {/* Heading */}
       <StyledTypography variant="h5" component="div" gutterBottom>
         <HeadingText>
           <Top10>Top 10 </Top10>
           <List>List</List>
         </HeadingText>
       </StyledTypography>
-      {/* Search */}
       <Box display="flex" justifyContent="center" mb={2}>
         <StyledTextField
           variant="outlined"
@@ -123,9 +127,9 @@ export function Home() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <IconButton onClick={handleSearchIconClick} style={SearchIconStyle}>
-                  <SearchIcon />
-                </IconButton>
+                <Box>
+                  <SearchIcon style={{ marginTop: "6px", color: "gray" }} />
+                </Box>
               </InputAdornment>
             ),
             style: InputPropsStyle,
@@ -135,12 +139,11 @@ export function Home() {
           sx={textFieldSx}
         />
       </Box>
-      {/* Table */}
       <StyledTableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              {["Rank", "Icon", "Name", "Price", "24h Volume", "MarketCap"].map((header) => (
+              {["Rank", "Icon", "Name", "Price", "24h Volume", "MarketCap", "Price Chart"].map((header) => (
                 <StyledTableCell key={header}>{header}</StyledTableCell>
               ))}
               <StyledTableCell></StyledTableCell>
@@ -149,7 +152,6 @@ export function Home() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* Display top 10 coins */}
             {filteredCoins.slice(0, 10).map((coin) => (
               <TableRow key={coin.id}>
                 <TableCellBlack>{coin.rank}</TableCellBlack>
@@ -168,15 +170,26 @@ export function Home() {
                 <TableCellBlack style={BoldText}>
                   ${parseFloat(coin.marketCap).toLocaleString()}
                 </TableCellBlack>
-                <TableCellBlack style={BoldText}>
-                  <ShowChartIcon style={ChartIcon} />
+                <TableCellBlack>
+                  <div style={{ width: 100, height: 50 }}>
+                    <Line data={createChartData(coin.sparkline)} options={{ 
+                      maintainAspectRatio: false, 
+                      scales: { 
+                        x: { display: false },
+                        y: { display: false }
+                      },
+                      plugins: {
+                        legend: { display: false }
+                      }
+                    }} />
+                  </div>
                 </TableCellBlack>
                 <TableCellBlack style={RedText}>
                   <FavoriteIcon />
                 </TableCellBlack>
-                <TableCellBlack style={BoldText}>
+                <TableCellBlack>
                   <IconButton onClick={() => handleOpenDialog(coin)} style={ChartIcon}>
-                    <CalculateIcon style={{color:"blue"}} />
+                    <CalculateIcon style={{ color: "#3486d7" }} />
                   </IconButton>
                 </TableCellBlack>
               </TableRow>
@@ -185,7 +198,6 @@ export function Home() {
         </Table>
       </StyledTableContainer>
 
-      {/* Dialog for calculations */}
       <StyledDialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="sm">
         <StyledDialogTitle>
           {selectedCoin ? (
