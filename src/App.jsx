@@ -10,6 +10,7 @@ import { LogIn } from "./Components/LogIn/LogIn"
 import Footer from "./Components/Footer/Footer"
 import { createGlobalStyle } from "styled-components"
 import { CoinDetails } from "./Components/CoinDetails/CoinDetails"
+import { useState } from "react"
 
 const GlobalStyle = createGlobalStyle`
  body {
@@ -23,16 +24,28 @@ overflow-x: hidden;
 `
 
 function App() {
+  const [favoriteItems, setFavoriteItems] = useState([])
   return (
     <>
       <GlobalStyle />
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={<Home setFavoriteItemsProp={setFavoriteItems} />}
+        />
         <Route path="/coins" element={<Coins />} />
         <Route path="/coin-details" element={<CoinDetails />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/favorite" element={<Favorite />} />
+        <Route
+          path="/favorite"
+          element={
+            <Favorite
+              favoriteItems={favoriteItems}
+              setFavoriteItems={setFavoriteItems}
+            />
+          }
+        />
         <Route path="/log-in" element={<LogIn />} />
       </Routes>
       <Footer />
