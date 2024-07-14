@@ -15,7 +15,7 @@ export const CenteredBox = styled(Box)({
 // Styled img element
 export const StyledImage = styled("img")({
   maxWidth: "100%",
-  height: "600px",
+  height: "500px",
 })
 //Styled Message under Photo
 export const MessageText = styled("p")({
