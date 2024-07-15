@@ -1,30 +1,40 @@
-// src/Components/Favorite/Favorite.jsx
-import React from "react"
+import React from 'react';
+import { TableRow, TableCell } from '@mui/material';
 import {
-  CenteredBox,
   StyledImage,
+  CenteredBox,
   MessageText,
   GoToCoinsLink,
-} from "./FavoriteStyled" // Relativna putanja do stilizovanih komponenti
-import MyFavImage from "./No-data-pana.png" // Relativna putanja do slike
+  StyledTableCell,
+} from './FavoriteStyled'; 
+import MyFavImage from './No-data-pana.png'; 
 
-export function Favorite({ favoriteItems }) {
+export const Favorite = ({ favoriteItems }) => {
   return (
-    <>
-      <>
-        {favoriteItems.length > 0 ? (
-          favoriteItems.map((coin) => <h1 key={coin.id}>{coin.name}</h1>)
-        ) : (
-          <CenteredBox>
-            <StyledImage src={MyFavImage} alt="No data" />
-            <MessageText>
-              You haven't added any coin to your favourite list, please add
-              some.
-            </MessageText>
-            <GoToCoinsLink to="/coins">Go to coins</GoToCoinsLink>
-          </CenteredBox>
-        )}
-      </>
-    </>
-  )
-}
+
+    <CenteredBox> {/* Centriramo sadržaj unutar ove Box komponente */}
+      {favoriteItems.length > 0 ? (
+        favoriteItems.map((coin, index) => (
+          <TableRow key={index}>
+            <TableCell><img style={{ width: 50, height: 50 }} src={coin.iconUrl} alt={coin.name} /></TableCell>
+            <TableCell>{coin.name}</TableCell>
+            <StyledTableCell sx={{ fontWeight: 'bold', color: 'black' }}>${parseFloat(coin.price).toFixed(2)}</StyledTableCell>
+            <StyledTableCell sx={{ fontWeight: 'bold', color: 'black' }}>${parseFloat(coin.marketCap).toLocaleString()}</StyledTableCell>
+            <StyledTableCell sx={{ fontWeight: 'bold', color: 'black' }}>${parseFloat(coin['24hVolume']).toFixed(2)}</StyledTableCell>
+          </TableRow>
+        ))
+      ) : (
+        <>
+          <StyledImage src={MyFavImage} alt="No data" />
+          <MessageText>
+            You haven't added any coins to your favorite list, please add some.
+          </MessageText>
+          <GoToCoinsLink to="/coins">Go to coins</GoToCoinsLink>
+        </>
+      )}
+    </CenteredBox>
+  );
+};
+
+export default Favorite;
+
