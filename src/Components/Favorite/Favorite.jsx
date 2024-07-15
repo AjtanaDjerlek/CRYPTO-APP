@@ -13,7 +13,7 @@ export function Favorite({ favoriteItems }) {
     <>
       <>
         {favoriteItems.length > 0 ? (
-          favoriteItems.map((item) => <h1 key={item.id}>{item.name}</h1>)
+          favoriteItems.map((coin) => <h1 key={coin.id}>{coin.name}</h1>)
         ) : (
           <CenteredBox>
             <StyledImage src={MyFavImage} alt="No data" />

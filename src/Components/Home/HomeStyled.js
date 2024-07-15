@@ -195,8 +195,8 @@ export const HeartIcon = styled("svg")({
 })
 
 export const ImgStyled = styled("img")`
-  width: 35vw;
-  height: 60vh;
+  width: 30vw;
+  height: 55vh;
 `
 export const ImgDiv = styled("div")`
   display: flex;

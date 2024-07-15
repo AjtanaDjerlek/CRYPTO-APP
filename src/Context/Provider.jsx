@@ -14,6 +14,7 @@ export const MyDataProvider = ({ children }) => {
       try {
         const result = await fetchData(apiKey, apiUrl)
         setData(result)
+        console.log(result)
       } catch (error) {
         setError(error)
       } finally {
