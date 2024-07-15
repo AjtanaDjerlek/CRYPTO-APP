@@ -34,7 +34,10 @@ function App() {
           path="/"
           element={<Home setFavoriteItemsProp={setFavoriteItems} />}
         />
-        <Route path="/coins" element={<Coins />} />
+        <Route
+          path="/coins"
+          element={<Coins setFavoriteItemsProp={setFavoriteItems} />}
+        />
         <Route path="/coin-details" element={<CoinDetails />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route

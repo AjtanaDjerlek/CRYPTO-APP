@@ -54,15 +54,22 @@ import {
   HeartIcon,
 } from "./CoinsStyled"
 
-export function Coins() {
+export function Coins({ setFavoriteItemsProp }) {
   const { data, loading, error, setCoin } = useContext(MyDataContext)
   const [searchQuery, setSearchQuery] = useState("")
   const [page, setPage] = useState(1)
   const itemsPerPage = 10
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [open, setOpen] = useState(false)
-  const [amount, setAmount] = useState("")
+  const [amount, setAmount] = useState(0)
   const [total, setTotal] = useState("")
+
+  const [favoriteItems, setFavoriteItems] = useState([])
+
+  const addCoinToFavorite = (item) => {
+    setFavoriteItems((prevItems) => [...prevItems, item])
+    setFavoriteItemsProp((prevItems) => [...prevItems, item])
+  }
 
   if (loading) {
     return <CircularProgress style={{ color: "white" }} />
@@ -195,7 +202,7 @@ export function Coins() {
                       />
                     </div>
                   </TableCellBlack>
-                  <TableCellBlack>
+                  <TableCellBlack onClick={() => addCoinToFavorite(coin)}>
                     <HeartIcon
                       aria-hidden="true"
                       focusable="false"
@@ -285,7 +292,7 @@ export function Coins() {
           <Button onClick={handleCalculate} color="primary">
             Calculate
           </Button>
-          <Button onClick={handleCloseDialog} color="secondary">
+          <Button onClick={handleCloseDialog} color="primary">
             Close
           </Button>
         </StyledDialogActions>

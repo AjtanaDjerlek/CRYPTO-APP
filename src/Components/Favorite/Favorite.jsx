@@ -11,6 +11,7 @@ import MyFavImage from './No-data-pana.png';
 
 export const Favorite = ({ favoriteItems }) => {
   return (
+
     <CenteredBox> {/* Centriramo sadržaj unutar ove Box komponente */}
       {favoriteItems.length > 0 ? (
         favoriteItems.map((coin, index) => (
@@ -36,3 +37,4 @@ export const Favorite = ({ favoriteItems }) => {
 };
 
 export default Favorite;
+
