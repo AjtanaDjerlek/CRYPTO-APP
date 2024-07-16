@@ -4,13 +4,13 @@ import { styled, Box } from "@mui/material"
 import { TableCell, TableRow } from "@mui/material"
 
 export const TableRowStyled = styled(TableRow)`
-  width: 1900px;
   border: "none";
-  display: "flex";
-  justify-content: "space-around";
-  align-items: "center";
-  padding-top: "20px";
-  border-bottom: "2px solid rgba(59, 130, 246, 0.5)";
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
+  padding-top: 20px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.5);
 `
 
 export const StyledTableCell = styled(TableCell)({
@@ -24,7 +24,6 @@ export const StyledTableCell = styled(TableCell)({
   border: "none",
 })
 
-// Black Table Cells for Home Page
 export const TableCellBlack = styled(TableCell)({
   color: "black",
 })
@@ -37,6 +36,8 @@ export const CenteredBox = styled(Box)({
   alignItems: "center",
   height: "auto",
   textAlign: "center",
+  width: "100%",
+  // backgroundColor: "red",
 })
 
 // Styled img element
