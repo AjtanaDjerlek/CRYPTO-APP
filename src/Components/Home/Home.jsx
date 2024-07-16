@@ -102,7 +102,7 @@ export function Home({ setFavoriteItemsProp }) {
         label: "Price",
         data: sparkline,
         borderColor: "blue",
-        backgroundColor: "rgba(59,130,246,.5)",
+        backgroundColor: "rgba(199, 210, 254, 0.5)",
         borderWidth: 1,
         fill: true,
         pointRadius: 0,

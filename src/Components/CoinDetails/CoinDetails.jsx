@@ -40,6 +40,10 @@ import {
   TableRow1,
   Img,
   TableRow2,
+  BoldText,
+  PriceText,
+  IconTextWrapper,
+  StyledTableCell,
 } from "./CoinDetailsStyled"
 import { TableCell } from "@mui/material"
 import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded"
@@ -57,6 +61,7 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 import TelegramIcon from "@mui/icons-material/Telegram"
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import { height, width } from "@mui/system"
 
 export const CoinDetails = () => {
   const { coin } = useContext(MyDataContext)
@@ -68,10 +73,12 @@ export const CoinDetails = () => {
         label: "Price",
         data: sparkline,
         borderColor: "blue",
-        backgroundColor: "rgba(59,130,246,.5)",
+        backgroundColor: "rgba(199, 210, 254, 0.5)",
         borderWidth: 7,
         fill: true,
-        pointRadius: 4,
+        pointRadius: 8,
+        pointBackgroundColor: "rgba(59,130,246,.5)",
+        pointBorderColor: "rgba(59,130,246,.5)",
       },
     ],
   })
@@ -79,28 +86,107 @@ export const CoinDetails = () => {
     <ParentDiv>
       <FirstDiv>
         <TableRow1>
-          <div>
-            <TableCell>{coin.rank}</TableCell>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              borderBottom: "none",
+            }}
+          >
+            <TableCell
+              style={{
+                fontWeight: "bolder",
+                borderBottom: "none",
+                fontSize: "17px",
+              }}
+            >
+              {coin.rank}
+            </TableCell>
             <TableCell>
               <Img src={coin.iconUrl} />
             </TableCell>
-            <TableCell>{coin.name}</TableCell>
-            <TableCell>{coin.symbol}</TableCell>
-            <TableCell>${parseFloat(coin.price).toFixed(2)}</TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bolder",
+                borderBottom: "none",
+                fontSize: "17px",
+              }}
+            >
+              {coin.name}
+            </TableCell>
+            <TableCell style={{ borderBottom: "none", fontSize: "17px" }}>
+              {coin.symbol}
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bolder",
+                borderBottom: "none",
+                fontSize: "17px",
+              }}
+            >
+              $
+              {parseFloat(coin.price).toLocaleString("en-US", {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3,
+              })}
+            </TableCell>
           </div>
-          <TableCell>
-            <Link to="/">Home</Link>
+
+          <TableCell
+            style={{
+              borderBottom: "none",
+            }}
+          >
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "blue",
+              }}
+              to="/"
+            >
+              Home
+            </Link>
           </TableCell>
         </TableRow1>
         <TableRow2>
-          <TableCell>
-            <h3>Pice Chart</h3>
+          <TableCell
+            style={{
+              fontWeight: "bolder",
+              borderBottom: "none",
+              fontSize: "17px",
+            }}
+          >
+            Price chart
           </TableCell>
-          <TableCell>
-            <h3>24h</h3>
+          <TableCell
+            style={{
+              borderBottom: "none",
+              fontSize: "17px",
+            }}
+          >
+            24h
+            <span style={{ color: "limegreen" }}>{coin.change}%</span>
           </TableCell>
-          <TableCell>{coin.change}%</TableCell>
-          <TableCell>${parseFloat(coin["24hVolume"]).toFixed(2)}</TableCell>
+          <TableCell
+            style={{
+              borderBottom: "none",
+              fontSize: "17px",
+            }}
+          >
+            High
+            <span
+              style={{
+                fontWeight: "bolder",
+              }}
+            >
+              $
+              {parseFloat(coin["24hVolume"]).toLocaleString("en-US", {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3,
+              })}
+            </span>
+          </TableCell>
+          {/* </div> */}
         </TableRow2>
         <LineDiv>
           <Line
@@ -122,98 +208,351 @@ export const CoinDetails = () => {
       <SecondDiv>
         <DivOne>
           <ValueStatiscDiv>
-            <h2>Value statistics</h2>
-            <p>
+            <h3
+              style={{
+                textAlign: "start",
+                fontSize: "29px",
+                fontWeight: "lighter",
+              }}
+            >
+              Value statistics
+            </h3>
+            <p
+              style={{
+                textAlign: "start",
+                width: "85%",
+                color: "gray",
+              }}
+            >
               An overview showing the statistics of Bitcoin, such as the base
               and quote currency the rank, and trading volume.
             </p>
-            <TableCell>
-              <MonetizationOnRoundedIcon />
-              Price to EUR{coin.change}%
-            </TableCell>
-            <TableCell>
-              <CurrencyBitcoinRoundedIcon />
-              Price to BTC{coin.change}%
-            </TableCell>
-            <TableCell>
-              <LeaderboardRoundedIcon />
-              Rank{coin.change}%
-            </TableCell>
-            <TableCell>
-              <EggRoundedIcon />
-              24h volume{coin.change}%
-            </TableCell>
-            <TableCell>
-              {" "}
-              <WaterRoundedIcon /> Market cap{coin.change}%
-            </TableCell>
-            <TableCell>
-              {" "}
-              <WaterRoundedIcon /> Fully diluted market cap{coin.change}%
-            </TableCell>
-            <TableCell>
-              {" "}
-              <BeenhereRoundedIcon /> All-time high (daily avg.){coin.change}%
-            </TableCell>
+
+            <StyledTableCell>
+              <IconTextWrapper>
+                <MonetizationOnRoundedIcon
+                  style={{ color: "rgb(25, 118, 210)" }}
+                />
+                <PriceText>Price to EUR</PriceText>
+                <BoldText>{coin.price}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <CurrencyBitcoinRoundedIcon
+                  style={{ color: "rgb(25, 118, 210)" }}
+                />
+                <PriceText>Price to BTC</PriceText>
+                <BoldText>{coin.btcPrice}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <LeaderboardRoundedIcon
+                  style={{ color: "rgb(25, 118, 210)" }}
+                />
+                <PriceText>Rank </PriceText>
+                <BoldText>#{coin.rank}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <EggRoundedIcon style={{ color: "rgb(25, 118, 210)" }} />
+                <PriceText>24h volume</PriceText>{" "}
+                <BoldText>
+                  {parseFloat(coin["24hVolume"]).toLocaleString("en-US")}
+                </BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <WaterRoundedIcon style={{ color: "rgb(25, 118, 210)" }} />
+                <PriceText>Market cap</PriceText>
+                <BoldText>{coin.marketCap}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <WaterRoundedIcon style={{ color: "rgb(25, 118, 210)" }} />
+
+                <PriceText>Fully diluted market cap</PriceText>
+                <BoldText>{coin.listedAt}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
+            <StyledTableCell>
+              <IconTextWrapper>
+                <BeenhereRoundedIcon style={{ color: "rgb(25, 118, 210)" }} />
+
+                <PriceText>All-time high (daily avg.)</PriceText>
+                <BoldText>{coin.listedAt}</BoldText>
+              </IconTextWrapper>
+            </StyledTableCell>
           </ValueStatiscDiv>
 
           <SuplyInfromationDiv>
-            <h2>Supply information</h2>
-            <p>
+            <h3
+              style={{
+                textAlign: "start",
+                fontSize: "29px",
+                fontWeight: "lighter",
+              }}
+            >
+              Supply information
+            </h3>
+            <p
+              style={{
+                textAlign: "start",
+                width: "85%",
+                color: "gray",
+              }}
+            >
               View the total and circulating supply of Bitcoin, including
               details on how the supplies are calculated.
             </p>
-            <p>
-              <CheckCircleOutlineIcon /> Verified supplys
-            </p>
-            <TableCell>Updated 2 minutes ago{coin.change}%</TableCell>
-            <TableCell>Total supply{coin.change}%</TableCell>
-            <TableCell>Max supply{coin.change}%</TableCell>
-            <TableCell>Total supply{coin.change}%</TableCell>
+
+            <SupplyDetails>
+              <p style={{ color: "rgba(34, 197, 94, 1)" }}>
+                <CheckCircleOutlineIcon
+                  style={{ color: "rgba(34, 197, 94, 1)" }}
+                />
+                Verified supplys
+              </p>
+              <TableCellRow>
+                <TableCelll>Updated 2 minutes ago</TableCelll>
+                <TableCellll>
+                  $
+                  {parseFloat(coin.price).toLocaleString("en-US", {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3,
+                  })}
+                </TableCellll>
+              </TableCellRow>
+              <TableCellRow>
+                <TableCelll>Total supply</TableCelll>
+                <TableCellll>{coin.listedAt}</TableCellll>
+              </TableCellRow>
+              <TableCellRow>
+                <TableCelll>Max supply</TableCelll>
+                <TableCellll>{coin.marketCap}</TableCellll>
+              </TableCellRow>
+              <TableCellRow>
+                <TableCelll>Total supply</TableCelll>
+                <TableCellll>{coin.listedAt}</TableCellll>
+              </TableCellRow>
+            </SupplyDetails>
           </SuplyInfromationDiv>
         </DivOne>
 
         <DivTwo>
           <WhatIsCoinDiv>
-            <p>
-              stETH tokens represent staked ETH in Lido, allowing users to earn
-              ETH 2.0 staking rewards and access DeFi yields.
-            </p>
+            <h4 style={{ fontFamily: "Roboto", fontWeight: "bold" }}>
+              What is {coin.name}
+            </h4>
+            <div
+              style={{
+                border: "1px solid rgba(59, 130, 246, 0.5)",
+                width: "80%",
+
+                alignItems: "center",
+              }}
+            >
+              <p style={{ fontFamily: "Roboto" }}>
+                stETH tokens represent staked ETH in Lido, allowing users to
+                earn ETH 2.0 staking rewards and access DeFi yields.
+              </p>
+            </div>
           </WhatIsCoinDiv>
 
-          <LinksDiv>
-            <TableCell>
-              <InsertLinkRoundedIcon /> <h4>website</h4>
-              <p>xrpl.org</p>
-            </TableCell>
+          <SupplyDetails2>
+            <TableCellRow2>
+              <InsertLinkRoundedIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />{" "}
+              <h4>website</h4>
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  stake.lido.fi
+                </a>
+              </TableCelP>
+            </TableCellRow2>
 
-            <TableCell>
-              <GitHubIcon />
+            <TableCellRow2>
+              <GitHubIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
               <h4>github</h4>
-              <p>xrplf/rippled</p>
-            </TableCell>
-            <TableCell>
-              <RedditIcon />
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  github.com
+                </a>
+              </TableCelP>
+            </TableCellRow2>
+            <TableCellRow2>
+              <RedditIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
               <h4>reddit</h4>
-              <p>r/XRP</p>
-            </TableCell>
-            <TableCell>
-              <TwitterIcon />
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  reddit.com
+                </a>
+              </TableCelP>
+            </TableCellRow2>
+            <TableCellRow2>
+              <TwitterIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
               <h4>twiter</h4>
-              <p>@XRPLF</p>
-            </TableCell>
-            <TableCell>
-              <YouTubeIcon />
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  twiter.com
+                </a>{" "}
+              </TableCelP>
+            </TableCellRow2>
+            <TableCellRow2>
+              <YouTubeIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
               <h4>YouTube</h4>
-              <p>YouTube</p>
-            </TableCell>
-            <TableCell>
-              <TelegramIcon /> <h4>telegram</h4>
-              <p>@Telegram</p>
-            </TableCell>
-          </LinksDiv>
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  youtube.com
+                </a>{" "}
+              </TableCelP>
+            </TableCellRow2>
+            <TableCellRow2>
+              <TelegramIcon
+                style={{
+                  color: "rgb(25, 118, 210)",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />{" "}
+              <h4>telegram</h4>
+              <TableCelP>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "blue",
+                  }}
+                  href="/"
+                >
+                  telegram.com
+                </a>
+              </TableCelP>
+            </TableCellRow2>
+          </SupplyDetails2>
         </DivTwo>
       </SecondDiv>
     </ParentDiv>
   )
 }
+
+import { styled } from "@mui/material"
+
+const SupplyDetails = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  background-color: rgb(241, 246, 255);
+  width: 100%;
+  height: 70%;
+  gap: 30px;
+  padding-top: 30px;
+`
+const SupplyDetails2 = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  /* background-color: rgb(241, 246, 255); */
+
+  width: 47%;
+  height: 70%;
+  gap: 30px;
+  padding-top: 30px;
+`
+
+const TableCellRow = styled("div")`
+  display: flex;
+  justify-content: flex-start;
+  width: 75%;
+  border-bottom: 1px solid gray;
+  font-family: "Roboto";
+`
+const TableCellRow2 = styled("div")`
+  display: flex;
+  align-items: center; /* Novo: Poravnanje ikonice i teksta */
+  justify-content: space-between; /* Novo: Raspored između ikonice/naziva i linka */
+  width: 75%;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.5);
+  font-family: "Roboto";
+  gap: 7px;
+`
+
+const TableCelll = styled("div")`
+  font-size: 16px;
+  margin-right: auto;
+`
+const TableCellll = styled("div")`
+  font-size: 16px;
+  font-weight: bolder;
+  margin-left: auto;
+`
+const TableCelP = styled("div")`
+  font-size: 16px;
+
+  margin-left: auto;
+  font-family: "Roboto";
+`
