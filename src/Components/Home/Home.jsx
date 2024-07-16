@@ -53,12 +53,7 @@ export function Home({ setFavoriteItemsProp }) {
   const [total, setTotal] = useState("")
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [favoriteItems, setFavoriteItems] = useState([])
-  const [heartButton, setHeartButton] = useState(false) // Dodato stanje heartButton
-
-  const addCoinToFavorite = (item) => {
-    setFavoriteItems((prevItems) => [...prevItems, item])
-    setFavoriteItemsProp((prevItems) => [...prevItems, item])
-  }
+  const [heartButton, setHeartButton] = useState(false)
 
   if (loading) {
     return <CircularProgress style={{ color: "white" }} />
@@ -112,16 +107,14 @@ export function Home({ setFavoriteItemsProp }) {
 
   const toggleFavorite = (coin) => {
     if (favoriteItems.includes(coin)) {
-      // Ako je stavka već omiljena, ukloni je
       const updatedFavorites = favoriteItems.filter((item) => item !== coin)
       setFavoriteItems(updatedFavorites)
       setFavoriteItemsProp(updatedFavorites)
-      setHeartButton(false) // Postavi heartButton na false kad se ukloni
+      setHeartButton(false)
     } else {
-      // Inače, dodaj stavku u omiljene
       setFavoriteItems((prevItems) => [...prevItems, coin])
       setFavoriteItemsProp((prevItems) => [...prevItems, coin])
-      setHeartButton(true) // Postavi heartButton na true kad se doda
+      setHeartButton(true)
     }
   }
 
@@ -183,7 +176,9 @@ export function Home({ setFavoriteItemsProp }) {
                       <CoinIcon src={coin.iconUrl} alt={coin.name} />
                     </Link>
                   </TableCellBlack>
-                  <TableCellBlack>{coin.name}</TableCellBlack>
+                  <TableCellBlack style={{ fontStyle: "italic" }}>
+                    {coin.name}
+                  </TableCellBlack>
                   <TableCellBlack style={BoldText}>
                     ${parseFloat(coin.price).toFixed(2)}
                   </TableCellBlack>

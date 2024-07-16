@@ -50,7 +50,7 @@ const creators = [
     description: "Senad work's in center NIT as a Web developer",
     image:
       "src/Components/AboutUs/WhatsApp Image 2024-07-11 at 14.37.03_61008c20.jpg",
-    github: "https://github.com/dakaaa01",
+    github: "https://github.com/senadzukorlic",
   },
 ]
 

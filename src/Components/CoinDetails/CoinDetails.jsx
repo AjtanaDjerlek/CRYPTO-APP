@@ -34,7 +34,6 @@ import {
   ValueStatiscDiv,
   SuplyInfromationDiv,
   WhatIsCoinDiv,
-  LinksDiv,
   DivTwo,
   DivOne,
   TableRow1,
@@ -61,7 +60,6 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 import TelegramIcon from "@mui/icons-material/Telegram"
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
-import { height, width } from "@mui/system"
 
 export const CoinDetails = () => {
   const { coin } = useContext(MyDataContext)
