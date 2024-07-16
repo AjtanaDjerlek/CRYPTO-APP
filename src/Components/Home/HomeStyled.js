@@ -183,15 +183,7 @@ export const HeartIcon = styled("svg")({
   color: "red",
   cursor: "pointer",
   display: "flex",
-
   alignItems: "center",
-  "& path": {
-    fill: "currentColor",
-    transition: "fill 0.3s ease",
-  },
-  "&:hover": {
-    color: "darkred",
-  },
 })
 
 export const ImgStyled = styled("img")`
