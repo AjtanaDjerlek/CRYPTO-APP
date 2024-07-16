@@ -1,26 +1,34 @@
-
 import { Link } from "react-router-dom"
-import  { styled, Box } from "@mui/material"
+import { styled, Box } from "@mui/material"
 
-import {TableCell, TableRow}from "@mui/material"
+import { TableCell, TableRow } from "@mui/material"
 
+export const TableRowStyled = styled(TableRow)`
+  width: 1900px;
+  border: "none";
+  display: "flex";
+  justify-content: "space-around";
+  align-items: "center";
+  padding-top: "20px";
+  border-bottom: "2px solid rgba(59, 130, 246, 0.5)";
+`
 
+export const StyledTableCell = styled(TableCell)({
+  color: "black",
+  fontWeight: "bolder",
+  fontStyle: "normal",
+  fontSize: "0.9em",
+  justifyContent: "space-between",
+  padding: "10px",
+  marginLeft: "20px",
+  border: "none",
+})
 
-  export const StyledTableCell = styled(TableCell)({
-    color: "black",
-    fontWeight: "bolder",
-    fontStyle: "normal",
-    fontSize: "0.9em",
-    justifyContent: "space-between",
-    padding: '10px',
-    marginLeft: '20px',
-  })
-  
-  // Black Table Cells for Home Page
-  export const TableCellBlack = styled(TableCell)({
-    color: "black",
-  })
-  
+// Black Table Cells for Home Page
+export const TableCellBlack = styled(TableCell)({
+  color: "black",
+})
+
 // Stiyled Box for center
 export const CenteredBox = styled(Box)({
   display: "flex",
