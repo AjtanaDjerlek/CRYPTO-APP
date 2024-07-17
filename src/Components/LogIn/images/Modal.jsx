@@ -134,6 +134,15 @@ export default function BasicModal() {
               ))}
             </TableBody>
           </Table>
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => alert("Add functionality here")}
+            >
+              Add
+            </Button>
+          </div>
         </TableContainer>
       </Modal>
     </div>
