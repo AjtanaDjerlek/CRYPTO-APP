@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect, useCallback } from "react"
+import fetchData from "../../API/Request"
 import { MyDataContext } from "../../Context/Provider"
 import {
   Table,
@@ -54,6 +55,27 @@ export function Home({ setFavoriteItemsProp }) {
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [favoriteItems, setFavoriteItems] = useState([])
   const [heartButton, setHeartButton] = useState(false)
+  const apiKey = "f026b9f55amsha967c914610b5bep19604ajsn605d93c21fcf"
+  const apiUrl = "https://api.coinranking.com/v2/coins"
+
+  const fetchDataCallback = useCallback(async () => {
+    try {
+      await fetchData(apiKey, apiUrl)
+      console.log("Data fetched successfully")
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }, [apiKey, apiUrl])
+
+  useEffect(() => {
+    fetchDataCallback()
+
+    const interval = setInterval(() => {
+      fetchDataCallback()
+    }, 10000)
+
+    return () => clearInterval(interval)
+  }, [fetchDataCallback])
 
   if (loading) {
     return <CircularProgress style={{ color: "white" }} />

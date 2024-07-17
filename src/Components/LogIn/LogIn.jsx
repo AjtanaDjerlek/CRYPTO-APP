@@ -12,7 +12,7 @@ export function LogIn() {
     <Container>
       <LeftContainer>
         <Title>
-          But Bitcoin <br /> & Crypto
+          Buy Bitcoin <br /> & Crypto
         </Title>
         <Text>
           Sign up today and <span style={{ color: "red" }}>buy 50+</span>
