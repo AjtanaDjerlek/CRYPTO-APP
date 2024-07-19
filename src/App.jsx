@@ -14,7 +14,7 @@ import { useState } from "react"
 
 const GlobalStyle = createGlobalStyle`
  body {
-  
+
   margin: 0;
 padding: 0;
 width: 100%;
@@ -25,6 +25,8 @@ overflow-x: hidden;
 
 function App() {
   const [favoriteItems, setFavoriteItems] = useState([])
+  const [coin2, setCoin2] = useState([])
+
   return (
     <>
       <GlobalStyle />
@@ -42,14 +44,12 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route
           path="/favorite"
-          element={
-            <Favorite
-              favoriteItems={favoriteItems}
-              setFavoriteItems={setFavoriteItems}
-            />
-          }
+          element={<Favorite favoriteItems={favoriteItems} />}
         />
-        <Route path="/log-in" element={<LogIn />} />
+        <Route
+          path="/log-in"
+          element={<LogIn coin2={coin2} setCoin2={setCoin2} />}
+        />
       </Routes>
       <Footer />
     </>
