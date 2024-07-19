@@ -34,10 +34,9 @@ export const CenteredBox = styled(Box)({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "auto",
+  height: "90vh",
   textAlign: "center",
   width: "100%",
-  // backgroundColor: "red",
 })
 
 // Styled img element

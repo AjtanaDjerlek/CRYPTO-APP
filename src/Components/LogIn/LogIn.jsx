@@ -1,21 +1,31 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Container, LeftContainer, Title, Text, Image, CoinInfo } from "./LogInStyled";
-import glavnaImage from "./images/Cryptomain.png";
-import BasicModal from "./images/Modal";
-import { MyDataContext } from "../../Context/Provider";
+import React from "react"
+import {
+  Container,
+  LeftContainer,
+  Title,
+  Text,
+  Image,
+  CoinInfo,
+  CoinImage,
+  CoinDetails,
+  CoinParagraph,
+} from "./LogInStyled"
+import glavnaImage from "./images/Cryptomain.png"
+import BasicModal from "./images/Modal"
+import { MyDataContext } from "../../Context/Provider"
+import { useState } from "react"
+import { useContext } from "react"
+import { Refresh } from "../Refresh/refresh"
 
-export function LogIn() {
-  const [open, setOpen] = useState(false);
-  const { data } = useContext(MyDataContext);
+export function LogIn({ coin2, setCoin2 }) {
+  const [open, setOpen] = useState(false)
+  const { data } = useContext(MyDataContext)
 
-  useEffect(() => {
-    // console.log('Context Data:', data);
-  }, [data]);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const coinData = data && data.data && data.data.coins && data.data.coins[0];
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  if (!data) {
+    return null
+  }
 
   return (
     <Container>
@@ -30,25 +40,20 @@ export function LogIn() {
           Get started with as little as{" "}
           <span style={{ color: "red" }}>$10</span>.
         </Text>
-        <BasicModal open={open} handleClose={handleClose} />
-        {coinData ? (
+        <BasicModal open={open} handleClose={handleClose} setCoin2={setCoin2} />
+        {coin2 ? (
           <CoinInfo>
-            <img 
-              src={coinData.iconUrl} 
-              alt={coinData.name} 
-              style={{ width: "50px", height: "50px" }} 
-            />
-            <div>
-              <p>{coinData.name}</p>
-              <p>{coinData.symbol}</p>
-              <p>${parseFloat(coinData.price).toFixed(2)}</p>
-            </div>
+            <CoinImage src={coin2.iconUrl} alt={coin2.name} />
+            <CoinDetails>
+              <CoinParagraph>{coin2.symbol}</CoinParagraph>
+              <CoinParagraph>
+                ${parseFloat(coin2.price).toFixed(2)}
+              </CoinParagraph>
+            </CoinDetails>
           </CoinInfo>
-        ) : (
-          <p>No coin data</p>
-        )}
+        ) : null}
       </LeftContainer>
       <Image src={glavnaImage} alt="Main" />
     </Container>
-  );
+  )
 }

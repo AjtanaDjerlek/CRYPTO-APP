@@ -37,7 +37,7 @@ const CoinIcon = ({ src, alt }) => (
   <img src={src} alt={alt} style={{ width: 32, height: 32 }} />
 )
 
-export default function BasicModal() {
+export default function BasicModal({ setCoin2 }) {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -45,10 +45,16 @@ export default function BasicModal() {
   const searchQuery = ""
 
   const [coinNumber, setCoinNumber] = useState(0)
+  const [chekcbox, setChekcbox] = React.useState(false)
 
   const filteredCoins = data.data.coins.filter((coin) =>
     coin.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  function isCrpitoTrue(coin) {
+    setChekcbox(true)
+    setCoin2(coin)
+  }
 
   return (
     <div>
@@ -105,6 +111,8 @@ export default function BasicModal() {
                   <TableCell>
                     <input
                       type="checkbox"
+                      value={chekcbox}
+                      onClick={() => isCrpitoTrue(coin)}
                       style={{ width: "17px", height: "17px" }}
                     />
                   </TableCell>
@@ -113,7 +121,6 @@ export default function BasicModal() {
                       display: "flex",
                       flexDirection: "column",
                       width: "70px",
-
                       height: "50px",
                     }}
                   >
@@ -135,11 +142,7 @@ export default function BasicModal() {
             </TableBody>
           </Table>
           <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => alert("Add functionality here")}
-            >
+            <Button variant="contained" color="primary" onC>
               Add
             </Button>
           </div>
