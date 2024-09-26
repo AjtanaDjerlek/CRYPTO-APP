@@ -48,8 +48,7 @@ const creators = [
     city: "NOVI PAZAR, SERBIA",
     position: "Frontend Developer",
     description: "Senad work's in center NIT as a Web developer",
-    image:
-      "src/Components/AboutUs/WhatsApp Image 2024-07-11 at 14.37.03_61008c20.jpg",
+    image: "src/Components/AboutUs/WhatsApp Image Senad.jpg",
     github: "https://github.com/senadzukorlic",
   },
 ]
